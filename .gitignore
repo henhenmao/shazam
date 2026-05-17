@@ -3,6 +3,7 @@
 plots/
 progress_ss/
 recordings/
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

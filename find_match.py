@@ -72,7 +72,7 @@ for i, (song_index, (offset, score)) in enumerate(scores):
     print(f"\nMatch #{i + 1}")
     print(f"Song       : {song_name}")
     print(f"Score      : {score}")
-    print(f"Offset     : {offset}")
+    # print(f"Offset     : {offset}")
 
 print("\n" + "=" * 60)
 

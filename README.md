@@ -12,7 +12,7 @@ Short clips of audio can be matched to hashes in the computed database. The same
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install numpy scipy tqdm
+pip install numpy scipy tqdm matplotlib
 mkdir data
 ```
  place your sample `.wav` files in `data/`

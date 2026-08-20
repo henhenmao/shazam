@@ -1,3 +1,5 @@
+# pip install matplotlib to examine windows
+
 # %%
 import numpy as np
 import matplotlib.pyplot as plt

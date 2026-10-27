@@ -1,38 +1,32 @@
-# %%
-import numpy as np
-import matplotlib.pyplot as plt
-import os
 import glob
-from typing import List, Dict, Tuple
-from tqdm import tqdm
-from scipy import fft, signal
 import pickle
-from scipy.io.wavfile import read
 from collections import defaultdict
-# %%
-from create_constellations import create_constellation
-from create_hashes import create_hashes
 
-# %%
-songs = glob.glob('data/*.wav')
+from scipy.io.wavfile import read
+from tqdm import tqdm
 
-song_index = {}
+from constellation import create_constellation
+from hashing import create_hashes
 
-database = defaultdict(list)
-for index, filename in enumerate(tqdm(sorted(songs))):
-    song_index[index] = filename
 
-    Fs, audio_input = read(filename)
+def main():
+    song_paths = {}
+    database = defaultdict(list)
 
-    if audio_input.ndim == 2:
-        audio_input = audio_input.mean(axis=1)
+    for song_id, path in enumerate(tqdm(sorted(glob.glob("data/*.wav")))):
+        song_paths[song_id] = path
 
-    constellation = create_constellation(audio_input, Fs)
+        sample_rate, audio = read(path)
+        constellation = create_constellation(audio, sample_rate)
 
-    for h, time_pair in create_hashes(constellation, index):
-        database[h].append(time_pair)
-# %%
-with open("database.pickle", 'wb') as db:
-    pickle.dump(database, db, pickle.HIGHEST_PROTOCOL)
-with open("song_index.pickle", 'wb') as songs:
-    pickle.dump(song_index, songs, pickle.HIGHEST_PROTOCOL)
+        for hash_value, occurrence in create_hashes(constellation, song_id):
+            database[hash_value].append(occurrence)
+
+    with open("database.pickle", "wb") as f:
+        pickle.dump(database, f, pickle.HIGHEST_PROTOCOL)
+    with open("song_index.pickle", "wb") as f:
+        pickle.dump(song_paths, f, pickle.HIGHEST_PROTOCOL)
+
+
+if __name__ == "__main__":
+    main()

@@ -3,7 +3,6 @@ data/
 plots/
 progress_ss/
 recordings/
-data/
 *.pickle
 
 # Byte-compiled / optimized / DLL files
